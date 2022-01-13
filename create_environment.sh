@@ -1,29 +1,43 @@
 #!/bin/bash -i
-CONDA_ENV_NAME=sdarp
+
+function check_cmd_exists {
+    CMD_PATH=`which $1`
+    if [[ $? -eq 0 ]] ; then 
+        echo "$1 found: $CMD_PATH"
+        unset CMD_PATH
+        return
+    else 
+        echo "error: $1 is not installed or cannot be found on PATH" >&2
+        exit 1
+    fi
+}
+
+check_cmd_exists conda
+check_cmd_exists cargo
 
 set -e
-ENV_EXISTS=$(conda info --envs -q | grep -E 'sdarp[[:space:]]+' -q && echo 1 || echo 0)
 
-if [[ $ENV_EXISTS -eq 0 ]] ; then 
-    echo "Creating conda env..."
-    conda env create -f env.yml
-    conda activate $CONDA_ENV_NAME
+CONDA_ENV_PATH=./env
+CONDA_ENV_PATH_FULL=`readlink -f ./env`
 
-    conda env config vars set HDF5_DIR=$CONDA_PREFIX
-    conda env config vars set LD_LIBRARY_PATH=${CONDA_PREFIX}/lib:${LD_LIBRARY_PATH}
-    conda env config vars set DATA_ROOT=`readlink -f ./data`
-    conda deactivate
+if [[ -d env/ ]] ; then 
+    echo "Existing environment found"
 else
-    echo "Existing environment found (${CONDA_ENV_NAME})"
+    echo "Creating conda env (this may take a few minutes)..."
+    conda env create -f env.yml -p $CONDA_ENV_PATH
 fi
 
-conda activate $CONDA_ENV_NAME
+echo "Setting environment variables..."
+conda env config vars set -p $CONDA_ENV_PATH HDF5_DIR=$CONDA_ENV_PATH_FULL LD_LIBRARY_PATH=${CONDA_ENV_PATH_FULL}/lib:${LD_LIBRARY_PATH} DATA_ROOT=`readlink -f ./data`
+conda env config vars list -p ./env
 
+
+echo "Adding Python modules..."
 mkdir -p lib/fraglib-py/python
-
+conda activate $CONDA_ENV_PATH
 conda develop lib/fraglib-py/python lib/oru lib/phd-utils
-
 cp config.yaml lib/phd-utils/
+
 
 (
     cd data
@@ -33,6 +47,11 @@ cp config.yaml lib/phd-utils/
     done    
 )
 
-cd lib/fraglib-py 
-echo "Compiling Rust extensions for Python..."
-exec ./build.sh
+(
+    cd lib/fraglib-py 
+    echo "Compiling Rust extensions for Python..."
+    ./build.sh
+)
+
+echo "Done."
+echo "Use \"conda activate ${CONDA_ENV_PATH}\" to activate the environment"

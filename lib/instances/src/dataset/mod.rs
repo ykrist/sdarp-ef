@@ -111,6 +111,7 @@ pub struct DynLayout<D> {
 }
 
 impl<D> DynLayout<D> {
+    #[allow(dead_code)]
   fn new(dir: impl AsRef<Path>, patt: &str) -> Result<Self> {
     let root = std::env::var("DATA_ROOT").expect("environment variable DATA_ROOT must be defined");
     let dir = Path::new(&root).join(dir);
