@@ -1,0 +1,25 @@
+{
+  "domination": true,
+  "time_delta": 0.5,
+  "preprocess": true,
+  "ff_cuts": true,
+  "ssr_cuts": true,
+  "cut_violate": 0.01,
+  "cuts_root_node": false,
+  "cuts_max_nodes": 10,
+  "cuts_min_global_gap": "inf",
+  "cuts_max_local_gap": 3,
+  "repair_heuristic": false,
+  "restricted_mips": [
+    2,
+    4,
+    6
+  ],
+  "min_len_fix_frac": 0.05,
+  "param_name": "lf_td050.989336",
+  "timelimit": 7200,
+  "gurobi": {
+    "Seed": 989336
+  },
+  "cpus": 4
+}

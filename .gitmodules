@@ -1,0 +1,6 @@
+[submodule "lib/phd-utils"]
+	path = lib/phd-utils
+	url = https://github.com/ykrist/phd-utils.git
+[submodule "lib/oru"]
+	path = lib/oru
+	url = https://github.com/ykrist/oru.git

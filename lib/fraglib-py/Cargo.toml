@@ -1,0 +1,20 @@
+[package]
+name = "fraglib-py"
+version = "0.1.0"
+authors = ["yanni_rist <yanni555rist@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+logging = []
+
+[dependencies]
+pyo3 = { version = "^0.14", features = ["extension-module"]}
+instances = {path = "../instances"}
+fnv = "^1.0.7"
+fraggen = {version = "0.1", path = "../fraggen"}
+num_cpus = "^1.13"
+rayon="1.5"
+

@@ -1,0 +1,31 @@
+[package]
+name = "fraggen"
+version = "0.1.0"
+#authors = ["yanni_rist <yanni555rist@gmail.com>"]
+edition = "2018"
+autobins = false
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bit-set = "^0.5"
+bit-vec = "^0.5"
+num ="^0.3"
+clap={version = "^2.33", default-features = false, features=["color"]}
+rayon = "^1.5"
+rand = "^0.7"
+hdf5 = "^0.6"
+fnv = "^1.0" # hash function better suited for small keys (eg integers)
+lazy_static = "^1.4"
+ndarray = "^0.13"
+itertools = "^0.9"
+json = "^0.12"
+anyhow = "^1.0"
+proptest = "^0.10"
+tracing =  {version = "^0.1",  features = ["max_level_trace", "release_max_level_off"]}
+tracing-subscriber = { version = "^0.2", features = ["json"] }
+tracing-appender = "^0.1"
+instances = { path = "../instances" }
+structopt = "^0.3.22"
+
+[[bin]]
+name = "sdarp"
