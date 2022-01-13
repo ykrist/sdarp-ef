@@ -44,7 +44,7 @@ python data_indices.py -m all
 
 So to solve instance `30N_4K_A`, run
 ```bash
-python -O darp_restricted_fragments.py 0
+python -O sdarp_ef.py 0
 ```
 Note the `-O` flag to Python, which skips debug assertions. Performance will suffer if this flag is not supplied.
 
